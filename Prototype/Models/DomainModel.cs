@@ -16,6 +16,7 @@ namespace Prototype.Models
     {
         public int ProductID { get; set; }
         public string ProductDescription { get; set; }
+        public string ProductUpc { get; set; }
         public int VendorID { get; set; }
         public virtual Vendor Vendor { get; set; }
     }
@@ -23,5 +24,12 @@ namespace Prototype.Models
     {
         public DbSet<Vendor> Vendors { get; set; }
         public DbSet<Product> Products { get; set; }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            //do advanced migrations here
+
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }

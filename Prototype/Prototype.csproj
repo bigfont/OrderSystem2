@@ -187,6 +187,15 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201307162218350_InitialCreate.cs" />
+    <Compile Include="Migrations\201307162218350_InitialCreate.Designer.cs">
+      <DependentUpon>201307162218350_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201307162236427_AddUpc.cs" />
+    <Compile Include="Migrations\201307162236427_AddUpc.Designer.cs">
+      <DependentUpon>201307162236427_AddUpc.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\DomainModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -306,6 +315,14 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201307162218350_InitialCreate.resx">
+      <DependentUpon>201307162218350_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201307162236427_AddUpc.resx">
+      <DependentUpon>201307162236427_AddUpc.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
