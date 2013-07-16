@@ -119,6 +119,16 @@ namespace Prototype.Controllers
             return RedirectToAction("Index");
         }
 
+        //
+        // GET: /Product/List/vendorName
+
+        public ActionResult ListByVendorName(string id)
+        {
+            var products = db.Products.Where<Product>(p => p.Vendor.VendorName == id).Include(p => p.Vendor);
+
+            return View("Index", products);
+        }
+
         protected override void Dispose(bool disposing)
         {
             db.Dispose();
