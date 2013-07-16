@@ -1,0 +1,36 @@
+﻿@model Prototype.Models.Product
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>Product</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.ProductDescription)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ProductDescription)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.ProductUpc)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ProductUpc)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Vendor.VendorName)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Vendor.VendorName)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.ProductID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
