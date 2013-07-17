@@ -1,0 +1,14 @@
+﻿@model IEnumerable<System.String>
+
+@{
+    ViewBag.Title = "Worksheets";
+}
+
+<h2>Worksheets</h2>
+
+@foreach (var item in Model)
+{
+    <p>@Html.ActionLink(item, "Columns", new { workbook = ViewBag.Workbook, worksheet = item })</p>
+}
+
+

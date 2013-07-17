@@ -1,0 +1,28 @@
+﻿@model System.Data.DataTable
+
+@{
+    ViewBag.Title = "DisplayData";
+}
+
+<h2>DisplayData</h2>
+<table>
+    <thead>
+        <tr>
+            @foreach (System.Data.DataColumn column in Model.Columns)
+            { 
+                <td>@column.ToString()</td>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (System.Data.DataRow row in Model.Rows)
+        { 
+            <tr>
+                @foreach (object item in row.ItemArray)
+                { 
+                    <td>@item.ToString()</td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>
