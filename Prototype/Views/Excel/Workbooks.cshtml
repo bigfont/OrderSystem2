@@ -2,8 +2,17 @@
 
 <section>
 
+    <dl>
+        <dt>VendorName</dt>
+        <dd>@ViewBag.VendorName [@ViewBag.VendorID]</dd>
+    </dl>
+
     <h2>Import Excel Spreadsheet</h2>
-    <form action="/Excel/Vendors" method="post" enctype="multipart/form-data">
+    <form action="/Excel/Worksheets" method="post" enctype="multipart/form-data">
+
+        <input hidden name="vendorID" value="@ViewBag.VendorID" />
+        <input hidden name="vendorName" value="@ViewBag.VendorName" />
+
         <label>
             Filename:
             <input type="file" name="workbookFile" />

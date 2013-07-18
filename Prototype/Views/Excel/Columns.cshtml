@@ -2,14 +2,14 @@
 
 <h2>Map Spreadsheet Columns to Database Columns</h2>
 <dl>
+    <dt>VendorName</dt>
+    <dd>@ViewBag.VendorName [@ViewBag.VendorID]</dd>
+
     <dt>WorkbookName</dt>
     <dd>@ViewBag.WorkbookName</dd>
 
     <dt>WorksheetName</dt>
     <dd>@ViewBag.WorksheetName</dd>
-
-    <dt>VendorName</dt>
-    <dd>@ViewBag.VendorName</dd>
 </dl>
 
 <form action="/Excel/Data_BeforeImport" method="post" enctype="multipart/form-data">

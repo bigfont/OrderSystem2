@@ -3,20 +3,14 @@
 <section>
 
     <h2>Select Vendor</h2>
-    <dl>
-        <dt>WorkbookName</dt>
-        <dd>@ViewBag.WorkbookName</dd>
-    </dl>
 
-    <form action="/Excel/Worksheets" method="post" enctype="multipart/form-data">
-
-        <input hidden name="workbookName" value="@ViewBag.WorkbookName" />
+    <form action="/Excel/Workbooks" method="post" enctype="multipart/form-data">
 
         <select name="vendorNameID">
             <option value="0_AddNew">Add New</option>
             @foreach (var item in Model)
             {
-                    <option value="(@item.VendorID)_(@item.VendorName)">
+                    <option value="@(item.VendorID)_@(item.VendorName)">
                         @item.VendorName
                         </option>
             }

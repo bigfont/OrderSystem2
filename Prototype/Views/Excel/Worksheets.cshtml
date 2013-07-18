@@ -6,19 +6,18 @@
 
 <h2>Select Worksheet from Wordbook</h2>
 <dl>
+    <dt>VendorName</dt>
+    <dd>@ViewBag.VendorName [@ViewBag.VendorID]</dd>
+
     <dt>WorkbookName</dt>
     <dd>@ViewBag.WorkbookName</dd>
-
-    <dt>VendorName</dt>
-    <dd>@ViewBag.VendorName</dd>
 </dl>
 
 <form action="/Excel/Columns" method="post" enctype="multipart/form-data">
 
-    <input hidden name="workbookName" value="@ViewBag.WorkbookName" />
     <input hidden name="vendorID" value="@ViewBag.VendorID" />
     <input hidden name="vendorName" value="@ViewBag.VendorName" />
-
+    <input hidden name="workbookName" value="@ViewBag.WorkbookName" />
 
     <select name="worksheetName">
         @foreach (var item in Model)

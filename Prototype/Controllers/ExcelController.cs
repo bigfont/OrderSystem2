@@ -28,63 +28,73 @@ namespace Prototype.Controllers
         }
 
         //GET
-        [ChildActionOnly]
-        public ActionResult Workbooks()
+        public ActionResult Vendors()
+        {
+            //get a list of all vendors
+            List<SelectVendor> selectVendors = new List<SelectVendor>();
+            using (Models.VendordContext db = new Prototype.Models.VendordContext())
+            {
+                selectVendors = db.Vendors
+                    .Where<Models.Vendor>(v => v.VendorName != null)
+                    .Select<Models.Vendor, SelectVendor>(v => new SelectVendor { VendorID = v.VendorID, VendorName = v.VendorName }).ToList();
+            }
+
+            return View(selectVendors);
+        }
+
+        [HttpPost]
+        public ActionResult Workbooks(string vendorNameID)
         {
             IEnumerable<System.String> workbookNames = from file in Directory.EnumerateFiles(ExcelDirectory, "*.xlsx", SearchOption.AllDirectories)
                                                        select System.IO.Path.GetFileName(file);
 
-            return PartialView(workbookNames);
-        }
-
-        [HttpPost]
-        public ActionResult Vendors(HttpPostedFileBase workbookFile)
-        {
-            string workbookName, workbookSavePath;
-            ActionResult actionResult;
-            if (workbookFile != null && workbookFile.ContentLength > 0)
-            {
-                //save the excel file
-                workbookName = Path.GetFileName(workbookFile.FileName);
-                workbookSavePath = Path.Combine(ExcelDirectory, workbookName);
-                workbookFile.SaveAs(workbookSavePath);
-
-                //ViewBag
-                ViewBag.WorkbookName = workbookName;
-
-                //get a list of all vendors
-                List<SelectVendor> selectVendors = new List<SelectVendor>();
-                using (Models.VendordContext db = new Prototype.Models.VendordContext())
-                {
-                    selectVendors = db.Vendors
-                        .Where<Models.Vendor>(v => v.VendorName != null)
-                        .Select<Models.Vendor, SelectVendor>(v => new SelectVendor { VendorID = v.VendorID, VendorName = v.VendorName }).ToList();
-                }
-
-                //set the action result
-                actionResult = View(selectVendors);
-            }
-            else
-            {
-                //nothing uploaded return to Index
-                actionResult = RedirectToAction("Index");
-            }
-
-            return actionResult;
-        }
-
-        [HttpPost]
-        public ActionResult Worksheets(string workbookName, string vendorNameID)
-        {
             //viewbag
-            ViewBag.WorkbookName = workbookName;
             ViewBag.VendorID = vendorNameID.Split('_')[0];
             ViewBag.VendorName = vendorNameID.Split('_')[1];
 
-            //get a list of all worksheets
-            var excel = new ExcelQueryFactory(Path.Combine(ExcelDirectory, workbookName));
-            IEnumerable<System.String> worksheetNames = excel.GetWorksheetNames();
-            return View("Worksheets", worksheetNames);
+            return View(workbookNames);
+        }
+
+        private bool UploadPostedFile(HttpPostedFileBase file, out string baseFileName)
+        {
+            bool success = false;
+            baseFileName = null;
+            if (file != null && file.ContentLength > 0)
+            {
+                string savePath;
+
+                //save the excel file
+                baseFileName = Path.GetFileName(file.FileName);
+                savePath = Path.Combine(ExcelDirectory, baseFileName);
+                file.SaveAs(savePath);
+                success = true;
+            }
+            return success;
+        }
+
+        [HttpPost]
+        public ActionResult Worksheets(string vendorID, string vendorName, HttpPostedFileBase workbookFile)
+        {
+            string workbookName;
+            ActionResult actionResult;
+            if (UploadPostedFile(workbookFile, out workbookName))
+            {
+                //get a list of all worksheets
+                var excel = new ExcelQueryFactory(Path.Combine(ExcelDirectory, workbookName));
+                IEnumerable<System.String> worksheetNames = excel.GetWorksheetNames();
+                actionResult = View("Worksheets", worksheetNames);
+            }
+            else
+            {
+                actionResult = RedirectToAction("Workbooks");
+            }
+
+            //viewbag
+            ViewBag.VendorID = vendorID;
+            ViewBag.VendorName = vendorName;
+            ViewBag.WorkbookName = workbookName;
+
+            return actionResult;
         }
 
         [HttpPost]
@@ -123,19 +133,16 @@ namespace Prototype.Controllers
 
             string[] stringsToAvoid = { "$ DECREASE", "$ INCREASE", "NEW", "DISCONTINUED" };
 
-            ViewBag.WorkbookName = workbookName;
-            ViewBag.WorksheetName = worksheetName;
-
-            //TODO Can we use a typed form or pass a typed object?
+            //get the excel rows
             var excel = new ExcelQueryFactory(Path.Combine(ExcelDirectory, workbookName));
             var rows = excel.Worksheet(worksheetName);
 
-            ////create vendor product list
+            //create vendor product list
             SimpleVendor simpleVendor = new SimpleVendor();
-            simpleVendor.VendorName = "test vendor";
-            simpleVendor.VendorID = 0;
+            simpleVendor.VendorName = vendorName;
+            simpleVendor.VendorID = vendorID;
 
-            //add rows to datatable            
+            //add the appropriate excel columns to the vendor product list            
             foreach (LinqToExcel.Row r in rows)
             {
                 SimpleProduct product = new SimpleProduct();
