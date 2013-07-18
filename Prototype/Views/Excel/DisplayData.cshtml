@@ -13,9 +13,16 @@
     @*<input hidden name="workbookName" value="@ViewBag.WorkbookName" />
         <input hidden name="worksheetName" value="@ViewBag.WorksheetName" />*@
 
+    <style type="text/css">
+        th.index, td.index {
+            display:none;
+            visibility:hidden;
+        }
+    </style>
     <table>
         <thead>
             <tr>
+                <th class="index">FormIndex</th>
                 <th>VendorProductName</th>
                 <th>VendorProductDescription</th>
             </tr>
@@ -24,7 +31,7 @@
             @for (int i = 0; i < @Model.VendorProducts.Count(); ++i)
             {
                 <tr>
-                    <td>
+                    <td class="index">
                         <input type="hidden" name="Index" value="@i" />
                     </td>
                     <td>
