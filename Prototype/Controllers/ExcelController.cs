@@ -6,6 +6,9 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Prototype.Models;
+using Prototype.ViewModels;
+using System.Reflection;
 
 namespace Prototype.Controllers
 {
@@ -18,72 +21,89 @@ namespace Prototype.Controllers
                 return Server.MapPath("~/ExcelWorkbooks");
             }
         }
-        //
-        // GET: /ExcelWorkbook/
 
         public ActionResult Index()
         {
-            var files = from file in Directory.EnumerateFiles(ExcelDirectory, "*.xlsx", SearchOption.AllDirectories)
-                        select System.IO.Path.GetFileName(file);
-
-            return View(files);
+            IEnumerable<System.String> workbookNames = from file in Directory.EnumerateFiles(ExcelDirectory, "*.xlsx", SearchOption.AllDirectories)
+                                                       select System.IO.Path.GetFileName(file);
+            return View(workbookNames);
         }
 
-        public ActionResult Worksheets(string workbook)
+        public ActionResult Worksheets(string workbookName)
         {
-            ViewBag.Workbook = workbook;
-            var excel = new ExcelQueryFactory(Path.Combine(ExcelDirectory, workbook));
-            var worksheetNames = excel.GetWorksheetNames();
+            ViewBag.WorkbookName = workbookName;
+            var excel = new ExcelQueryFactory(Path.Combine(ExcelDirectory, workbookName));
+            IEnumerable<System.String> worksheetNames = excel.GetWorksheetNames();
             return View("Worksheets", worksheetNames);
         }
 
-        public ActionResult Columns(string workbook, string worksheet)
+        public ActionResult Columns(string workbookName, string worksheetName)
         {
-            ViewBag.Workbook = workbook;
-            ViewBag.Worksheet = worksheet;
-            var excel = new ExcelQueryFactory(Path.Combine(ExcelDirectory, workbook));
-            var columnNames = excel.GetColumnNames(worksheet);
-            return View(columnNames);
+            ViewBag.WorkbookName = workbookName;
+            ViewBag.WorksheetName = worksheetName;
+            var excel = new ExcelQueryFactory(Path.Combine(ExcelDirectory, workbookName));
+            IEnumerable<System.String> excelColumnNames = excel.GetColumnNames(worksheetName);
+
+            ExcelProductMappingChoices mappingChoices = new ExcelProductMappingChoices();
+            mappingChoices.ExcelColumns = excelColumnNames.ToList<String>();
+            PropertyInfo[] vendorProducts = typeof(VendorProduct).GetProperties();
+            foreach (PropertyInfo pi in vendorProducts)
+            {
+                mappingChoices.ProductProperties.Add(pi.Name);
+            }
+
+            return View(mappingChoices);
         }
 
         [HttpPost]
-        public ActionResult DisplayData(IEnumerable<String> columns, string workbook, string worksheet)
+        public ActionResult DisplayData(string workbookName, string worksheetName, VendorProduct mappings)
         {
+            string[] stringsToAvoid = { "$ DECREASE", "$ INCREASE", "NEW", "DISCONTINUED" };
 
-            var excel = new ExcelQueryFactory(Path.Combine(ExcelDirectory, workbook));
-            var rows = excel.Worksheet(worksheet);
+            ViewBag.WorkbookName = workbookName;
+            ViewBag.WorksheetName = worksheetName;
 
-            //create data table
-            DataTable dataTable = new DataTable();
+            //TODO Can we use a typed form or pass a typed object?
+            var excel = new ExcelQueryFactory(Path.Combine(ExcelDirectory, workbookName));
+            var rows = excel.Worksheet(worksheetName);
 
-            //add columns to datatable
-            foreach (string c in columns)
-            {
-                dataTable.Columns.Add(c);
-            }
+            ////create vendor product list
+            VendorProductList vendorProductList = new VendorProductList();
+            vendorProductList.VendorName = "test vendor";
+            vendorProductList.VendorID = 0;
 
             //add rows to datatable            
             foreach (LinqToExcel.Row r in rows)
             {
-                DataRow row = dataTable.NewRow();
-                foreach (string c in columns)
-                {
-                    row[c] = r[c];
-                }
+                VendorProduct product = new VendorProduct();
 
-                bool hasData = row.ItemArray.Any(cell => 
-                    cell.ToString().Length > 0 &&
-                    !(cell.ToString().Equals("$ DECREASE") || cell.ToString().Equals("$ INCREASE")));
+                product.VendorProductName = r[mappings.VendorProductName];
+                product.VendorProductDescription = r[mappings.VendorProductDescription];
+
+                PropertyInfo[] properties = typeof(VendorProduct).GetProperties();
+                bool hasData = properties.Any<PropertyInfo>(pi =>
+                    pi.GetValue(product) != null &&
+                    pi.GetValue(product).ToString().Length > 0 &&
+                    !stringsToAvoid.Any<String>(pi.GetValue(product).ToString().Contains));                
 
                 if (hasData)
                 {
-                    dataTable.Rows.Add(row);
+                    vendorProductList.VendorProducts.Add(product);
                 }
-
             }
 
-            return View(dataTable);
+            return View(vendorProductList);
         }
 
+        [HttpPost]
+        public ActionResult ImportData(IEnumerable<VendorProduct> products)
+        {       
+            //TODO 
+            //Capture the POST from the from into an object
+            //Persist the data to the database
+            //The problem is doing a strongly-typed capture of the form data.
+
+            return View();
+        }
     }
 }

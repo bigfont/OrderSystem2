@@ -11,7 +11,7 @@ namespace Prototype.Controllers
 {
     public class ProductController : Controller
     {
-        private OrderSystemContext db = new OrderSystemContext();
+        private VendordContext db = new VendordContext();
 
         //
         // GET: /Product/

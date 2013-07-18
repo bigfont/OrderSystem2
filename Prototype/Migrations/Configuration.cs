@@ -5,14 +5,14 @@ namespace Prototype.Migrations
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<Prototype.Models.OrderSystemContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<Prototype.Models.VendordContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(Prototype.Models.OrderSystemContext context)
+        protected override void Seed(Prototype.Models.VendordContext context)
         {
             //  This method will be called after migrating to the latest version.
 

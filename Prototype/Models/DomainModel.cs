@@ -11,6 +11,11 @@ namespace Prototype.Models
         public int VendorID { get; set; }
         public string VendorName { get; set; }
         public virtual List<Product> Products { get; set; }
+
+        public Vendor()
+        {
+            Products = new List<Product>();
+        }
     }
     public class Product
     {
@@ -20,10 +25,14 @@ namespace Prototype.Models
         public int VendorID { get; set; }
         public virtual Vendor Vendor { get; set; }
     }
-    public class OrderSystemContext : DbContext
+    public class VendordContext : DbContext
     {
         public DbSet<Vendor> Vendors { get; set; }
         public DbSet<Product> Products { get; set; }
+
+        public VendordContext()
+            : base("VendordSQLExpress")
+        { }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

@@ -6,9 +6,11 @@
 
 <h2>Worksheets</h2>
 
+<strong>@ViewBag.WorkbookName</strong>
+
 @foreach (var item in Model)
 {
-    <p>@Html.ActionLink(item, "Columns", new { workbook = ViewBag.Workbook, worksheet = item })</p>
+    <p>@Html.ActionLink(item, "Columns", new { workbookName = ViewBag.WorkbookName, worksheetName = item })</p>
 }
 
 

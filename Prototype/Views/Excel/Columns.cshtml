@@ -1,4 +1,4 @@
-﻿@model IEnumerable<System.String>
+﻿@model Prototype.ViewModels.ExcelProductMappingChoices
 
 @{
     ViewBag.Title = "Columns";
@@ -6,17 +6,27 @@
 
 <h2>Columns</h2>
 
+<strong>@ViewBag.WorkbookName > @ViewBag.WorksheetName</strong>
+
 @using (Html.BeginForm("DisplayData", "Excel", FormMethod.Post))
 {
-    <input hidden name="workbook" value="@ViewBag.Workbook" />
-    <input hidden name="worksheet" value="@ViewBag.Worksheet" />
+    <input hidden name="workbookName" value="@ViewBag.WorkbookName" />
+    <input hidden name="worksheetName" value="@ViewBag.WorksheetName" />
 
-    foreach (var item in Model)
-    {
-        <label>
-            <input name="columns" type="checkbox" value="@item" />
-            @item
+    foreach (var property in @Model.ProductProperties)
+    { 
+        <label>@property
+        <select name="@property">
+            @foreach(var column in @Model.ExcelColumns)
+            {
+                <option>
+                    @column
+                </option>
+            }
+        </select>
         </label>
     }
+
+    
     <button type="submit">Display Data</button>
 }

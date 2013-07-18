@@ -1,28 +1,43 @@
-﻿@model System.Data.DataTable
+﻿@model Prototype.ViewModels.VendorProductList
 
 @{
-    ViewBag.Title = "DisplayData";
+    ViewBag.Title = "Display Data";
 }
 
-<h2>DisplayData</h2>
-<table>
-    <thead>
-        <tr>
-            @foreach (System.Data.DataColumn column in Model.Columns)
-            { 
-                <td>@column.ToString()</td>
-            }
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (System.Data.DataRow row in Model.Rows)
-        { 
+<h2>Display Data</h2>
+
+<strong>@ViewBag.WorkbookName > @ViewBag.WorksheetName</strong>
+
+@using (Html.BeginForm("ImportData", "Excel", FormMethod.Post))
+{
+    @*<input hidden name="workbookName" value="@ViewBag.WorkbookName" />
+        <input hidden name="worksheetName" value="@ViewBag.WorksheetName" />*@
+
+    <table>
+        <thead>
             <tr>
-                @foreach (object item in row.ItemArray)
-                { 
-                    <td>@item.ToString()</td>
-                }
+                <th>VendorProductName</th>
+                <th>VendorProductDescription</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < @Model.VendorProducts.Count(); ++i)
+            {
+                <tr>
+                    <td>
+                        <input type="hidden" name="Index" value="@i" />
+                    </td>
+                    <td>
+                        <span>@Model.VendorProducts[i].VendorProductName</span>
+                        <input type="hidden" value="@Model.VendorProducts[i].VendorProductName" name="[@i].VendorProductName" />
+                    </td>
+                    <td>
+                        @Model.VendorProducts[i].VendorProductDescription
+                        <input type="hidden" value="@Model.VendorProducts[i].VendorProductDescription" name="[@i].VendorProductDescription" />
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <button type="submit">Import Data</button>
+}

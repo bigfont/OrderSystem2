@@ -8,5 +8,5 @@
 
 @foreach (var item in Model)
 {
-    <p>@Html.ActionLink(item, "Worksheets", new {workbook=item})</p>
+    <p>@Html.ActionLink(item, "Worksheets", new { workbookName = item })</p>
 }
