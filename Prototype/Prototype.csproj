@@ -39,6 +39,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper">
+      <HintPath>..\packages\AutoMapper.2.2.1\lib\net40\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="LinqToExcel">
       <HintPath>..\packages\LinqToExcel.1.7.1\lib\LinqToExcel.dll</HintPath>
     </Reference>
@@ -212,6 +215,10 @@
     <Compile Include="Migrations\201307162236427_AddUpc.cs" />
     <Compile Include="Migrations\201307162236427_AddUpc.Designer.cs">
       <DependentUpon>201307162236427_AddUpc.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201307181908325_AddProductName.cs" />
+    <Compile Include="Migrations\201307181908325_AddProductName.Designer.cs">
+      <DependentUpon>201307181908325_AddProductName.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
@@ -474,8 +481,8 @@
     <Content Include="Views\Excel\Worksheets.cshtml" />
     <Content Include="Views\Excel\Index.cshtml" />
     <Content Include="Views\Excel\Columns.cshtml" />
-    <Content Include="Views\Excel\ImportData.cshtml" />
-    <Content Include="Views\Excel\DisplayData.cshtml" />
+    <Content Include="Views\Excel\Data_AfterImport.cshtml" />
+    <Content Include="Views\Excel\Data_BeforeImport.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -489,6 +496,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201307162236427_AddUpc.resx">
       <DependentUpon>201307162236427_AddUpc.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201307181908325_AddProductName.resx">
+      <DependentUpon>201307181908325_AddProductName.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

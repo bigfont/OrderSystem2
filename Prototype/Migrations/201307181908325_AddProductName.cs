@@ -2,17 +2,17 @@ namespace Prototype.Migrations
 {
     using System;
     using System.Data.Entity.Migrations;
-
-    public partial class AddUpc : DbMigration
+    
+    public partial class AddProductName : DbMigration
     {
         public override void Up()
         {
-            AddColumn("dbo.Products", "ProductUpc", c => c.String());
+            AddColumn("dbo.Products", "ProductName", c => c.String());
         }
-
+        
         public override void Down()
         {
-            DropColumn("dbo.Products", "ProductUpc");
+            DropColumn("dbo.Products", "ProductName");
         }
     }
 }

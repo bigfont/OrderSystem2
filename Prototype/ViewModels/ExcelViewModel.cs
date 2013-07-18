@@ -5,27 +5,27 @@ using System.Web;
 
 namespace Prototype.ViewModels
 {
-    public class VendorProductList
+    public class SimpleVendor
     {
-        public string VendorName { get; set; }
         public int VendorID { get; set; }
-        public List<VendorProduct> VendorProducts { get; set; }
-        public VendorProductList()
+        public string VendorName { get; set; }
+        public List<SimpleProduct> Products { get; set; }
+        public SimpleVendor()
         {
-            VendorProducts = new List<VendorProduct>();
+            Products = new List<SimpleProduct>();
         }
     }
-    public class VendorProduct
+    public class SimpleProduct
     {
-        public string VendorProductName { get; set; }
-        public string VendorProductDescription { get; set; }
+        public string ProductName { get; set; }
+        public string ProductDescription { get; set; }
     }
-    public class ExcelProductMappingChoices
+    public class ExcelColumnToProductPropertyMappingChoices
     {
         public List<String> ProductProperties { get; set; }
         public List<String> ExcelColumns { get; set; }
 
-        public ExcelProductMappingChoices()
+        public ExcelColumnToProductPropertyMappingChoices()
         {
             ProductProperties = new List<String>();
             ExcelColumns = new List<String>();

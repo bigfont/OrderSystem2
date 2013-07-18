@@ -20,6 +20,7 @@ namespace Prototype.Models
     public class Product
     {
         public int ProductID { get; set; }
+        public string ProductName { get; set; }
         public string ProductDescription { get; set; }
         public string ProductUpc { get; set; }
         public int VendorID { get; set; }

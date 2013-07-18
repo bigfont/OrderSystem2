@@ -1,4 +1,4 @@
-﻿@model Prototype.ViewModels.ExcelProductMappingChoices
+﻿@model Prototype.ViewModels.ExcelColumnToProductPropertyMappingChoices
 
 @{
     ViewBag.Title = "Columns";
@@ -8,7 +8,7 @@
 
 <strong>@ViewBag.WorkbookName > @ViewBag.WorksheetName</strong>
 
-@using (Html.BeginForm("DisplayData", "Excel", FormMethod.Post))
+@using (Html.BeginForm("Data_BeforeImport", "Excel", FormMethod.Post))
 {
     <input hidden name="workbookName" value="@ViewBag.WorkbookName" />
     <input hidden name="worksheetName" value="@ViewBag.WorksheetName" />

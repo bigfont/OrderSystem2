@@ -1,0 +1,57 @@
+﻿@model Prototype.ViewModels.SimpleVendor
+
+@{
+    ViewBag.Title = "Display Data";
+}
+
+<h2>Display Data</h2>
+
+<strong>@ViewBag.WorkbookName > @ViewBag.WorksheetName</strong>
+
+@using (Html.BeginForm("Data_AfterImport", "Excel", FormMethod.Post))
+{
+    <style type="text/css">
+        th.index, td.index {
+            display: none;
+            visibility: hidden;
+        }
+    </style>
+    <table>
+        <thead>
+            <tr>
+                <th class="index">FormIndex</th>
+                <th>ProductName</th>
+                <th>ProductDescription</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < @Model.Products.Count(); ++i)
+            {
+                <tr>
+                    <td class="index">
+                        <input type="hidden" name="Products.Index" value="@i" />
+                    </td>
+                    <td>
+                        <span>@Model.Products[i].ProductName</span>
+                        <input type="hidden" value="@Model.Products[i].ProductName" name="Products[@i].ProductName" />
+                    </td>
+                    <td>
+                        @Model.Products[i].ProductDescription
+                        <input type="hidden" value="@Model.Products[i].ProductDescription" name="Products[@i].ProductDescription" />
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <label>Choose Vendor
+        <select name="VendorName">
+            <option value="Add New">Add New</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+        </select>
+    </label>
+    <button type="submit">Import Data</button>
+}
