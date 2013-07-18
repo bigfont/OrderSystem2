@@ -20,6 +20,11 @@ namespace Prototype.ViewModels
         public string ProductName { get; set; }
         public string ProductDescription { get; set; }
     }
+    public class SelectVendor
+    {
+        public int VendorID { get; set; }
+        public string VendorName { get; set; }
+    }
     public class ExcelColumnToProductPropertyMappingChoices
     {
         public List<String> ProductProperties { get; set; }

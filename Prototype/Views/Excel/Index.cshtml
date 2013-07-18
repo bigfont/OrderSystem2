@@ -1,12 +1,2 @@
-﻿@model IEnumerable<System.String>
-
-@{
-    ViewBag.Title = "Index";
-}
-
-<h2>Index</h2>
-
-@foreach (var item in Model)
-{
-    <p>@Html.ActionLink(item, "Worksheets", new { workbookName = item })</p>
-}
+﻿
+@Html.Action("Workbooks", "Excel")

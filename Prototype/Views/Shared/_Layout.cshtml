@@ -57,7 +57,13 @@
     <script type="text/javascript">
 
         $(document).ready(function () {
+
             $('table').addClass('dataTable').dataTable();
+
+            $("button").click(function () {
+                $(this).parents("section").first().css("border", "1px solid black");
+            });
+
         });
 
     </script>    

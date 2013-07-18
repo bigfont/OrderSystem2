@@ -483,6 +483,8 @@
     <Content Include="Views\Excel\Columns.cshtml" />
     <Content Include="Views\Excel\Data_AfterImport.cshtml" />
     <Content Include="Views\Excel\Data_BeforeImport.cshtml" />
+    <Content Include="Views\Excel\Vendors.cshtml" />
+    <Content Include="Views\Excel\Workbooks.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

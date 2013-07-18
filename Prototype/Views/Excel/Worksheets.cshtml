@@ -4,13 +4,27 @@
     ViewBag.Title = "Worksheets";
 }
 
-<h2>Worksheets</h2>
+<h2>Select Worksheet from Wordbook</h2>
+<dl>
+    <dt>WorkbookName</dt>
+    <dd>@ViewBag.WorkbookName</dd>
 
-<strong>@ViewBag.WorkbookName</strong>
+    <dt>VendorName</dt>
+    <dd>@ViewBag.VendorName</dd>
+</dl>
 
-@foreach (var item in Model)
-{
-    <p>@Html.ActionLink(item, "Columns", new { workbookName = ViewBag.WorkbookName, worksheetName = item })</p>
-}
+<form action="/Excel/Columns" method="post" enctype="multipart/form-data">
+
+    <input hidden name="workbookName" value="@ViewBag.WorkbookName" />
+    <input hidden name="vendorID" value="@ViewBag.VendorID" />
+    <input hidden name="vendorName" value="@ViewBag.VendorName" />
 
 
+    <select name="worksheetName">
+        @foreach (var item in Model)
+        {
+            <option value="@item">@item</option>
+        }
+    </select>
+    <button type="submit">Submit</button>
+</form>

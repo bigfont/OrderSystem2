@@ -1,0 +1,22 @@
+﻿@model IEnumerable<System.String>
+
+<section>
+
+    <h2>Import Excel Spreadsheet</h2>
+    <form action="/Excel/Vendors" method="post" enctype="multipart/form-data">
+        <label>
+            Filename:
+            <input type="file" name="workbookFile" />
+        </label>
+        <button type="submit">Upload</button>
+    </form>
+
+    <h2>Already Imported</h2>
+    <ul>
+        @foreach (var item in Model)
+        {
+            <li>@item</li>
+        }
+    </ul>
+
+</section>

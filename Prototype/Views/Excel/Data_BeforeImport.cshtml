@@ -4,12 +4,26 @@
     ViewBag.Title = "Display Data";
 }
 
-<h2>Display Data</h2>
+<h2>Confirm Data Import</h2>
+<dl>
+    <dt>WorkbookName</dt>
+    <dd>@ViewBag.WorkbookName</dd>
 
-<strong>@ViewBag.WorkbookName > @ViewBag.WorksheetName</strong>
+    <dt>WorksheetName</dt>
+    <dd>@ViewBag.WorksheetName</dd>
 
-@using (Html.BeginForm("Data_AfterImport", "Excel", FormMethod.Post))
-{
+    <dt>VendorName</dt>
+    <dd>@ViewBag.VendorName</dd>
+</dl>
+
+<form action="/Excel/Data_AfterImport" method="post" enctype="multipart/form-data">
+
+
+    <input hidden name="workbookName" value="@ViewBag.WorkbookName" />
+    <input hidden name="worksheetName" value="@ViewBag.WorksheetName" />
+    <input hidden name="vendorID" value="@ViewBag.VendorID" />
+    <input hidden name="vendorName" value="@ViewBag.VendorName" />
+
     <style type="text/css">
         th.index, td.index {
             display: none;
@@ -43,15 +57,5 @@
             }
         </tbody>
     </table>
-    <label>Choose Vendor
-        <select name="VendorName">
-            <option value="Add New">Add New</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-        </select>
-    </label>
     <button type="submit">Import Data</button>
-}
+</form>
